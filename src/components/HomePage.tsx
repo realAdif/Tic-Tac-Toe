@@ -10,14 +10,14 @@ export default function HomePage() {
       <div className=" bg-primary rounded-2xl p-3 w-full shadow-[inset_0_-8px_0px_#10212A]">
         <h1 className=" uppercase text-center py-2">Pick player its</h1>
         <div className="bg-[#1A2A33] flex p-2 rounded-xl">
-          <button className="w-[198px] h-14  rounded-xl mx-auto">
+          <button className="w-1/2 h-14 rounded-xl mx-auto hover:bg-[#A8BFC9] opacity-50">
             <img
               src="/icon-x-silver.svg"
               alt="x-outline"
               className="mx-auto w-8 h-8"
             />
           </button>
-          <button className="w-[198px] h-14 rounded-xl bg-[#A8BFC9]">
+          <button className="w-1/2 h-14 rounded-xl bg-[#A8BFC9]">
             <img
               src="/icon-o-silver.svg"
               alt="x-outline"

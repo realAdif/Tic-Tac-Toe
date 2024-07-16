@@ -4,8 +4,9 @@ export default {
   theme: {
     extend: {
       backgroundColor: {
-        primary: "rgb(220, 20, 60)",
-        "primary-light": "rgb(228 50 86)",
+        primary: "rgb(31, 54, 65)",
+        "light-yellow": "#F2B137",
+        "light-blue": "#31C3BD",
       },
     },
   },

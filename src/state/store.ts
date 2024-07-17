@@ -2,9 +2,11 @@ import { createStore } from "kaioken"
 import { aiMove } from "../utils/cpuPlayer"
 
 // 0 = no vaule, 1 = X , 2 = O
-const initialState = {
+const initialState: State = {
   currentPlayer: 1,
   playerXWins: 0,
+  playerXMoves: [],
+  playerOMoves: [],
   playerOWins: 0,
   rounds: 0,
   ties: 0,
@@ -59,15 +61,19 @@ const initialState = {
 
 export const useGameBoard = createStore(initialState, function (set, get) {
   function vsCPU(id: number) {
-    // user move
+    // 1. user move
     set((item) => {
-      //current value of item.currentPlayer
+      // Get the current value of item.currentPlayer
       let newCurrentPlayer = item.currentPlayer
+      // Create a new array with the updated moves for player X
+      const currentPlayerMoves = [...item.playerXMoves, id]
       // Loop through the cells in the game board and update the cell that was clicked
       const newCells = item.cells.map((cell) => {
         if (cell.id === id && cell.value === 0) {
+          // Toggle the current player for the next move
           newCurrentPlayer = item.currentPlayer === 1 ? 2 : 1
 
+          // Update the clicked cell with the current player's value
           return {
             ...cell,
             value: item.currentPlayer,
@@ -77,22 +83,48 @@ export const useGameBoard = createStore(initialState, function (set, get) {
         // If the cell is not the one clicked, return it unchanged
         return cell
       })
-      // Update the clicked cell with the current player's value
+
+      // Return the updated state with the new current player, moves, and cells
       return {
         ...item,
         currentPlayer: newCurrentPlayer,
+        playerXMoves: currentPlayerMoves,
         cells: newCells,
       }
     })
-    // ai move
+
+    // 2.check for winner
     set((item) => {
-      console.log("ai", item.currentPlayer)
+      const winningPattern = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ]
+      console.log("check for winner")
+      console.log("player X moves", item.playerXMoves)
+      console.log("player O moves", item.playerOMoves)
+
+      // Check if any winning pattern matches player X's moves
+      const isPlayerXWinner = winningPattern.some((pattern) =>
+        pattern.every((move) => item.playerXMoves.includes(move))
+      )
+
+      if (isPlayerXWinner) {
+        console.log("Player X wins!")
+      } else {
+        console.log("No winner for Player X yet.")
+      }
+
+      return item // Return the unchanged item
+    })
+
+    // 3. ai move
+    set((item) => {
       if (item.currentPlayer === 2) {
         return aiMove(item)
       }
       return item
     })
-    // check for winner
   }
 
   function vsPlayer(id: number) {
@@ -129,6 +161,8 @@ export const useGameBoard = createStore(initialState, function (set, get) {
         currentPlayer: initialState.currentPlayer,
         playerXWins: initialState.playerXWins,
         playerOWins: initialState.playerOWins,
+        playerXMoves: initialState.playerXMoves,
+        playerOMoves: initialState.playerOMoves,
         rounds: initialState.rounds,
         ties: initialState.ties,
         cells: initialState.cells.map((cell) => ({

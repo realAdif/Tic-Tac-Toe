@@ -1,13 +1,13 @@
 import { useGameBoard } from "../state/store"
 export default function GameBoard() {
-  const { value, onPress } = useGameBoard()
+  const { value, vsCPU } = useGameBoard()
   return (
     <div className="grid grid-cols-3 grid-rows-3  gap-4">
       {
         // 3x3 grid
         value.cells.map((i) => (
           <button
-            onclick={() => onPress(i.id)}
+            onclick={() => vsCPU(i.id)}
             key={i.id}
             className="w-[140px] h-[140px] bg-primary rounded-2xl  shadow-[inset_0_-9px_0px_#10212A]"
           >

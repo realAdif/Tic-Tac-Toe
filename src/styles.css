@@ -12,12 +12,7 @@
     font-family: "Outfit", sans-serif;
   }
 }
-@media screen and (prefers-color-scheme: dark) {
-  :root {
-    background-color: #1a2a33;
-    color: #a8bfc9;
-  }
-}
+
 @layer components {
   h1 {
     @apply text-base font-bold;

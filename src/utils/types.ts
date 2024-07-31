@@ -1,11 +1,20 @@
 interface State {
-  currentPlayer: number
-  playerXWins: number
-  playerXMoves: number[]
-  playerOMoves: number[]
-  playerOWins: number
-  rounds: number
-  ties: number
+  isGameOver: boolean
+  gameState: {
+    rounds: number
+    ties: number
+    currentPlayer: number
+    roundMoves: number[]
+  }
+  playerX: {
+    wins: number
+    moves: number[]
+  }
+  playerO: {
+    wins: number
+    moves: number[]
+  }
+
   cells: {
     id: number
     value: number

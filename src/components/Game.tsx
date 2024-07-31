@@ -1,9 +1,11 @@
 import GameBoard from "./GameBoard"
 import { useGameBoard } from "../state/store"
+import WinningScreen from "./WinningScreen"
+
 export default function Game() {
-  const { value, onRestart } = useGameBoard()
+  const { value } = useGameBoard()
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 ">
       {/* top */}
       <div className="flex justify-between items-center">
         {/* icons */}
@@ -14,7 +16,7 @@ export default function Game() {
         {/* turn */}
         <div className="bg-primary rounded-2xl p-3  shadow-[inset_0_-9px_0px_#10212A] w-36 ">
           <div className="flex gap-2 justify-center items-center mb-2">
-            {value.currentPlayer === 1 ? (
+            {value.gameState.currentPlayer === 1 ? (
               <img src="icon-x.svg" alt="icon-x" className="w-[16px] md:w-5" />
             ) : (
               <img src="icon-o.svg" alt="icon-o" className=" w-[16px] md:w-5" />
@@ -25,30 +27,31 @@ export default function Game() {
         </div>
         {/* restart */}
         <div className="bg-[#A8BFC9] rounded-xl p-3 shadow-[inset_0_-6px_0px_#6B8997] h-full w-13">
-          <button onclick={onRestart}>
+          <button>
             <img src="icon-restart.svg" alt="icon-restart" className="w-5" />
           </button>
         </div>
       </div>
       <GameBoard />
+      {value.isGameOver ? <WinningScreen /> : null}
       {/* points/footer */}
       <div className="flex justify-between gap-2">
         <div className="bg-light-blue text-[#1A2A33] w-[96px] md:w-[140px] h-[72px]  text-center rounded-xl ">
           <div className="h-full flex flex-col justify-center items-center">
-            <p>{value.playerXWins}(YOU)</p>
-            <p>0</p>
+            <p>X (YOU)</p>
+            <p>{value.playerX.wins}</p>
           </div>
         </div>
         <div className="bg-[#A8BFC9] text-[#1A2A33] w-[96px] md:w-[140px] h-[72px] text-center rounded-xl">
           <div className="h-full flex flex-col justify-center items-center">
             <p>TIES</p>
-            <p>{value.ties}</p>
+            <p>{value.gameState.ties}</p>
           </div>
         </div>
         <div className="bg-light-yellow text-[#1A2A33] w-[96px]  md:w-[140px] h-[72px] text-center rounded-xl">
           <div className="h-full flex flex-col justify-center items-center">
-            <p>{value.playerOWins}(CPU)</p>
-            <p>0</p>
+            <p>O (CPU)</p>
+            <p>{value.playerO.wins}</p>
           </div>
         </div>
       </div>

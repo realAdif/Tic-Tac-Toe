@@ -3,7 +3,7 @@ import { useGameBoard } from "../state/store"
 import WinningScreen from "./WinningScreen"
 
 export default function Game() {
-  const { value } = useGameBoard()
+  const { value, onRestart } = useGameBoard()
   return (
     <div className="flex flex-col gap-5 ">
       {/* top */}
@@ -26,7 +26,10 @@ export default function Game() {
           </div>
         </div>
         {/* restart */}
-        <div className="bg-[#A8BFC9] rounded-xl p-3 shadow-[inset_0_-6px_0px_#6B8997] h-full w-13">
+        <div
+          onclick={onRestart}
+          className="bg-[#A8BFC9] rounded-xl p-3 shadow-[inset_0_-6px_0px_#6B8997] h-full w-13"
+        >
           <button>
             <img src="icon-restart.svg" alt="icon-restart" className="w-5" />
           </button>

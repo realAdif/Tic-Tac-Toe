@@ -27,16 +27,6 @@ export function aiMove(state: State) {
   }
 
   return {
-    ...state,
-    gameState: {
-      ...state.gameState,
-      roundMoves: newMove,
-      currentPlayer: 1,
-    },
-    playerO: {
-      ...state.playerO,
-      moves: [...state.playerO.moves, playerCPUMove],
-    },
-    cells: updatedCells,
+    moves: [...state.playerO.moves, playerCPUMove],
   }
 }

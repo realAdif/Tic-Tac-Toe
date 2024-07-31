@@ -1,7 +1,7 @@
 import { createStore, useState } from "kaioken"
 import { aiMove } from "../utils/cpuPlayer"
 
-// 0 = no vaule, 1 = X , 2 = O
+// 1 = X , 2 = O
 const initialState: State = {
   isGameOver: false,
   playerX: {
@@ -66,30 +66,50 @@ const initialState: State = {
     },
   ],
 }
+const winningPattern = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+]
 
 export const useGameBoard = createStore(initialState, function (set, get) {
   function vsCPU(id: number) {
-    // update game cells
     set((item: State) => {
-      const newCells = item.cells.map((cell) => {
-        if (cell.id === id) {
-          return {
-            ...cell,
-            value: item.gameState.currentPlayer,
-            isClicked: true,
-          }
-        }
-        return cell
-      })
-      // console.log("cells:", newCells)
-      return { ...item, cells: newCells }
-    })
-    // update gameState
-    set((item: State) => {
-      //Game state round
+      //Update the user cell
+      const newCells = item.cells.map((cell) =>
+        cell.id === id
+          ? { ...cell, value: item.gameState.currentPlayer, isClicked: true }
+          : cell
+      )
       const newMove = [...item.gameState.roundMoves, id]
-      //Game state player
+
+      //update user gameMove
+      const newPlayerXMoves = [...item.playerX.moves, id]
+
+      //check winner
+      const isPlayerXWinner = winningPattern.some((pattern) =>
+        pattern.every((move) => newPlayerXMoves.includes(move))
+      )
       const newCurrentPlayer = item.gameState.currentPlayer === 1 ? 2 : 1
+      if (isPlayerXWinner) {
+        return {
+          ...item,
+          gameState: {
+            ...item.gameState,
+            rounds: item.gameState.rounds + 1,
+          },
+          playerX: {
+            ...item.playerX,
+            wins: item.playerX.wins + 1,
+          },
+          cells: newCells,
+          isGameOver: true,
+        }
+      } else {
+        if (item.gameState.currentPlayer === 2) {
+          const aiMoveResult = aiMove(item)
+        }
+      }
 
       const newItem = {
         ...item,
@@ -100,69 +120,20 @@ export const useGameBoard = createStore(initialState, function (set, get) {
         },
         playerX: {
           ...item.playerX,
-          moves: [...item.playerX.moves, id],
+          moves: newPlayerXMoves,
         },
+        playerO: {
+          ...item.playerO,
+        },
+        cells: newCells,
       }
+
       return newItem
     })
-
-    //cheack winner
-    set((item: State) => {
-      const winningPattern = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-      ]
-      const isPlayerXWinner = winningPattern.some((pattern) =>
-        pattern.every((move) => item.playerX.moves.includes(move))
-      )
-
-      if (isPlayerXWinner) {
-        console.log("Player X is the winner")
-        return {
-          ...item,
-          playerX: {
-            ...item.playerX,
-            wins: item.playerX.wins + 1,
-          },
-          isGameOver: true,
-        }
-      } else {
-        console.log("No winner for Player X yet.")
-      }
-      return item
-    })
-
-    // update ai Move
-    set((item: State) => {
-      if (item.gameState.currentPlayer === 2) {
-        // send back update cell
-        const aiMoveResult = aiMove(item)
-        console.log("AI Move:", aiMoveResult)
-        const newCurrentPlayer = item.gameState.currentPlayer === 2 ? 1 : 2
-        return {
-          ...item,
-          gameState: {
-            ...item.gameState,
-            currentPlayer: newCurrentPlayer,
-          },
-          cells: aiMoveResult.cells,
-        }
-      }
-
-      return item
-    })
-    //check game
-    let currentMove = get().gameState.roundMoves
-    if (currentMove.length === get().cells.length - 4) {
-      return set(() => ({ ...get(), isGameOver: true }))
-    }
-
-    // console.log("currentGame:", get())
   }
-  function onRestart() {
-    console.log("Restarting Game", get())
 
+  function onRestart() {
+    console.log("Restarting Game")
     return set(() => initialState)
   }
 

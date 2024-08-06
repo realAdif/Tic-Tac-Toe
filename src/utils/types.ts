@@ -1,23 +1,27 @@
-interface State {
+interface Cells {
+  id: number
+  value: 1 | 2
+  isClicked: boolean
+}
+interface playerO {
+  wins: number
+  moves: number[]
+}
+interface playerX {
+  wins: number
+  moves: number[]
+}
+interface gameState {
+  rounds: number
+  ties: number
+  currentPlayer: number
+  roundMoves: number[]
   isGameOver: boolean
-  gameState: {
-    rounds: number
-    ties: number
-    currentPlayer: number
-    roundMoves: number[]
-  }
-  playerX: {
-    wins: number
-    moves: number[]
-  }
-  playerO: {
-    wins: number
-    moves: number[]
-  }
+}
 
-  cells: {
-    id: number
-    value: number
-    isClicked: boolean
-  }[]
+interface GameState {
+  gameState: gameState
+  playerX: playerX
+  playerO: playerO
+  cells: Cells[]
 }

@@ -1,9 +1,8 @@
-import { createStore, useState } from "kaioken"
+import { createStore } from "kaioken"
 import { aiMove } from "../utils/cpuPlayer"
 
 // 1 = X , 2 = O
-const initialState: State = {
-  isGameOver: false,
+const initialState: GameState = {
   playerX: {
     wins: 0,
     moves: [],
@@ -13,6 +12,7 @@ const initialState: State = {
     moves: [],
   },
   gameState: {
+    isGameOver: false,
     rounds: 0,
     roundMoves: [],
     ties: 0,
@@ -66,69 +66,46 @@ const initialState: State = {
     },
   ],
 }
-const winningPattern = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
-]
 
 export const useGameBoard = createStore(initialState, function (set, get) {
   function vsCPU(id: number) {
-    set((item: State) => {
-      //Update the user cell
-      const newCells = item.cells.map((cell) =>
+    set((item: GameState) => {
+      //game state
+      let gameCells = item.cells
+      let gameState = item.gameState
+      let gameRoundMoves = item.gameState.roundMoves
+      let gameRoundCurrentPlayer = item.gameState.currentPlayer
+      let playerXMoves = item.playerX.moves
+      let playerOMoves = item.playerO.moves
+
+      gameCells = gameCells.map((cell) =>
         cell.id === id
           ? { ...cell, value: item.gameState.currentPlayer, isClicked: true }
           : cell
       )
-      const newMove = [...item.gameState.roundMoves, id]
+      gameCells = aiMove(gameCells)
+      console.log(gameCells)
+      gameRoundMoves = [...gameRoundMoves, id]
 
-      //update user gameMove
-      const newPlayerXMoves = [...item.playerX.moves, id]
+      gameRoundCurrentPlayer = gameRoundCurrentPlayer === 1 ? 2 : 1
 
-      //check winner
-      const isPlayerXWinner = winningPattern.some((pattern) =>
-        pattern.every((move) => newPlayerXMoves.includes(move))
-      )
-      const newCurrentPlayer = item.gameState.currentPlayer === 1 ? 2 : 1
-      if (isPlayerXWinner) {
-        return {
-          ...item,
-          gameState: {
-            ...item.gameState,
-            rounds: item.gameState.rounds + 1,
-          },
-          playerX: {
-            ...item.playerX,
-            wins: item.playerX.wins + 1,
-          },
-          cells: newCells,
-          isGameOver: true,
-        }
-      } else {
-        if (item.gameState.currentPlayer === 2) {
-          const aiMoveResult = aiMove(item)
-        }
-      }
-
-      const newItem = {
+      return {
         ...item,
         gameState: {
           ...item.gameState,
-          roundMoves: newMove,
-          currentPlayer: newCurrentPlayer,
+          roundMoves: gameRoundMoves,
+          currentPlayer: gameRoundCurrentPlayer,
         },
         playerX: {
           ...item.playerX,
-          moves: newPlayerXMoves,
+          moves: playerXMoves,
         },
         playerO: {
           ...item.playerO,
+          moves: playerOMoves,
         },
-        cells: newCells,
+        cells: gameCells,
       }
-
-      return newItem
     })
   }
 

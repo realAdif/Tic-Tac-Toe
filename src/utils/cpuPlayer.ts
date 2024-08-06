@@ -1,20 +1,23 @@
-export function aiMove(state: State) {
-  const cells = state.cells
-  let updatedCells = [...cells]
-  let playerCPUMove = state.playerO
+const winningPattern = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+]
 
-  let newMove
+export function aiMove(cells: Cells[]) {
+  // const cells = state.cells
+  let updatedCells = [...cells]
+
   let attempts = 0
   const maxAttempts = cells.length
+  let randomMove
 
   // Keep trying to find a random move until an empty cell is found
   while (attempts < maxAttempts) {
-    const randomMove = Math.floor(Math.random() * cells.length)
-    newMove = [...state.gameState.roundMoves, randomMove]
+    randomMove = Math.floor(Math.random() * cells.length)
 
     if (!cells[randomMove].isClicked) {
       // Update the random cell with the CPU's move
-      playerCPUMove: randomMove
 
       updatedCells[randomMove] = {
         ...cells[randomMove],
@@ -25,8 +28,10 @@ export function aiMove(state: State) {
     }
     attempts++
   }
-
-  return {
-    moves: [...state.playerO.moves, playerCPUMove],
-  }
+  return updatedCells
 }
+
+// update user movement state
+// check winner
+// update AI Movement state
+// update game state

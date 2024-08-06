@@ -16,7 +16,7 @@ export default function Game() {
         {/* turn */}
         <div className="bg-primary rounded-2xl p-3  shadow-[inset_0_-9px_0px_#10212A] w-36 ">
           <div className="flex gap-2 justify-center items-center mb-2">
-            {value.gameState.currentPlayer === 1 ? (
+            {value.currentPlayer === "x" ? (
               <img src="icon-x.svg" alt="icon-x" className="w-[16px] md:w-5" />
             ) : (
               <img src="icon-o.svg" alt="icon-o" className=" w-[16px] md:w-5" />
@@ -36,25 +36,25 @@ export default function Game() {
         </div>
       </div>
       <GameBoard />
-      {value.isGameOver ? <WinningScreen /> : null}
+      {/* { <WinningScreen /> : null} */}
       {/* points/footer */}
       <div className="flex justify-between gap-2">
         <div className="bg-light-blue text-[#1A2A33] w-[96px] md:w-[140px] h-[72px]  text-center rounded-xl ">
           <div className="h-full flex flex-col justify-center items-center">
             <p>X (YOU)</p>
-            <p>{value.playerX.wins}</p>
+            <p>{}</p>
           </div>
         </div>
         <div className="bg-[#A8BFC9] text-[#1A2A33] w-[96px] md:w-[140px] h-[72px] text-center rounded-xl">
           <div className="h-full flex flex-col justify-center items-center">
             <p>TIES</p>
-            <p>{value.gameState.ties}</p>
+            {/* <p>{value.gameState.ties}</p> */}
           </div>
         </div>
         <div className="bg-light-yellow text-[#1A2A33] w-[96px]  md:w-[140px] h-[72px] text-center rounded-xl">
           <div className="h-full flex flex-col justify-center items-center">
             <p>O (CPU)</p>
-            <p>{value.playerO.wins}</p>
+            <p>{}</p>
           </div>
         </div>
       </div>

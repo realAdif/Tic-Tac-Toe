@@ -12,13 +12,13 @@ export default function GameBoard() {
             className="w-[96px] h-[96px]  md:w-[140px] md:h-[140px] bg-primary rounded-2xl  shadow-[inset_0_-9px_0px_#10212A]"
           >
             <p>{i.id}</p>
-            {i.value === 1 ? (
+            {i.value === "x" ? (
               <img
                 src="icon-x.svg"
                 alt="icon-x"
                 className="w-16 mx-auto mb-2"
               />
-            ) : i.value === 2 ? (
+            ) : i.value === "o" ? (
               <img
                 src="icon-o.svg"
                 alt="icon-o"

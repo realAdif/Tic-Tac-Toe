@@ -1,7 +1,6 @@
 interface Cells {
   id: number
-  value: 1 | 2
-  isClicked: boolean
+  value: "x" | "o" | ""
 }
 interface playerO {
   wins: number
@@ -14,14 +13,12 @@ interface playerX {
 interface gameState {
   rounds: number
   ties: number
-  currentPlayer: number
+
   roundMoves: number[]
   isGameOver: boolean
 }
 
 interface GameState {
-  gameState: gameState
-  playerX: playerX
-  playerO: playerO
+  currentPlayer: "x" | "o"
   cells: Cells[]
 }

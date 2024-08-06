@@ -32,6 +32,9 @@ export function aiMove(cells: Cells[]) {
 }
 
 // update user movement state
+const updateUserMove = (cell, currentPlayer) => {
+  cell.id === id ? { ...cell, value: currentPlayer, isClicked: true } : cell
+}
 // check winner
 // update AI Movement state
 // update game state

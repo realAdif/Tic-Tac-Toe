@@ -1,9 +1,10 @@
-import GameBoard from "./GameBoard"
 import { useGameBoard } from "../state/store"
+import GameBoard from "./GameBoard"
 import WinningScreen from "./WinningScreen"
 
 export default function Game() {
   const { value, onRestart } = useGameBoard()
+
   return (
     <div className="flex flex-col gap-5 ">
       {/* top */}

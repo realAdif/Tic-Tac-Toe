@@ -44,11 +44,11 @@ const initialState: GameState = {
 }
 
 export const useGameBoard = createStore(initialState, function (set, get) {
-  function vsCPU(id: number) {
+  const vsPlayer = (id: number) =>
     set((item: GameState) => {
       let currentPlayer = item.currentPlayer
       let updatedCells = []
-      console.log("On Move")
+      console.log("onPlayer")
 
       for (let i = 0; i < item.cells.length; i++) {
         if (item.cells[i].id == id && item.cells[i].value == "") {
@@ -69,13 +69,39 @@ export const useGameBoard = createStore(initialState, function (set, get) {
         cells: updatedCells,
       }
     })
-  }
+  const vsCPU = (id: number) =>
+    set((item: GameState) => {
+      let currentPlayer = item.currentPlayer
+      let updatedCells = []
+      console.log("onCPU")
+
+      for (let i = 0; i < item.cells.length; i++) {
+        if (item.cells[i].id == id && item.cells[i].value == "") {
+          updatedCells.push({
+            ...item.cells[i],
+            value: item.currentPlayer,
+            isClicked: true,
+          })
+          currentPlayer = currentPlayer === "x" ? "o" : "x"
+        } else {
+          updatedCells.push(item.cells[i])
+        }
+      }
+
+      return {
+        ...item,
+        currentPlayer: currentPlayer,
+        cells: updatedCells,
+      }
+    })
+
   function onRestart() {
     console.log("Restarting Game")
     return set(() => initialState)
   }
 
   return {
+    vsPlayer,
     vsCPU,
     onRestart,
   }

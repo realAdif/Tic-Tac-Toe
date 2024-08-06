@@ -1,6 +1,6 @@
 import { useGameBoard } from "../state/store"
 import GameBoard from "./GameBoard"
-import WinningScreen from "./WinningScreen"
+// import WinningScreen from "./WinningScreen"
 
 export default function Game() {
   const { value, onRestart } = useGameBoard()

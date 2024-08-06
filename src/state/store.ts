@@ -43,7 +43,7 @@ const initialState: GameState = {
   ],
 }
 
-export const useGameBoard = createStore(initialState, function (set, get) {
+export const useGameBoard = createStore(initialState, function (set) {
   const vsPlayer = (id: number) =>
     set((item: GameState) => {
       let currentPlayer = item.currentPlayer

@@ -5,7 +5,7 @@ import Game from "./components/Game"
 
 export function App() {
   return (
-    <main className=" w-[360px] md:w-[460px]">
+    <main className="w-[360px] md:w-[460px]">
       <Router>
         <Route path="/" element={<HomePage />} />
         <Route path="/:game" element={<Game />} />

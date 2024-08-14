@@ -19,6 +19,10 @@ interface gameState {
 }
 
 interface GameState {
+  isPaused: boolean
+  playerOScores: number
+  playerXScores: number
+  tie: number
   currentPlayer: "x" | "o"
   cells: Cells[]
 }

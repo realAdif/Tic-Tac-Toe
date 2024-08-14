@@ -2,6 +2,10 @@ import { createStore } from "kaioken"
 
 // 1 = X , 2 = O
 const initialState: GameState = {
+  isPaused: false,
+  playerXScores: 0,
+  playerOScores: 0,
+  tie: 0,
   currentPlayer: "x",
   cells: [
     {
@@ -42,14 +46,18 @@ const initialState: GameState = {
     },
   ],
 }
-
+const winningPattern = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+]
 export const useGameBoard = createStore(initialState, function (set) {
   const vsPlayer = (id: number) =>
     set((item: GameState) => {
       let currentPlayer = item.currentPlayer
       let updatedCells = []
-      console.log("onPlayer")
 
+      // update the board
       for (let i = 0; i < item.cells.length; i++) {
         if (item.cells[i].id == id && item.cells[i].value == "") {
           updatedCells.push({
@@ -69,10 +77,12 @@ export const useGameBoard = createStore(initialState, function (set) {
         cells: updatedCells,
       }
     })
+
   const vsCPU = (id: number) =>
     set((item: GameState) => {
       let currentPlayer = item.currentPlayer
       let updatedCells = []
+      let gameOver = item.isPaused
       console.log("onCPU")
 
       for (let i = 0; i < item.cells.length; i++) {
@@ -90,6 +100,7 @@ export const useGameBoard = createStore(initialState, function (set) {
 
       return {
         ...item,
+        isPaused: gameOver,
         currentPlayer: currentPlayer,
         cells: updatedCells,
       }

@@ -1,6 +1,10 @@
 import { useGameBoard } from "../state/store"
 
-export default function WinningScreen() {
+export default function WinningScreen({
+  winner,
+}: {
+  winner: "x" | "o" | null
+}) {
   const { onRestart } = useGameBoard()
 
   return (
@@ -8,7 +12,20 @@ export default function WinningScreen() {
       <div className=" container mx-auto text-center flex flex-col gap-y-3">
         <p>YOU WON</p>
         <div className="flex  items-center justify-center gap-x-5">
-          <img src="icon-x.svg" alt="X" className="max-w-[56px] max-h-[56px]" />
+          {winner === "x" ? (
+            <img
+              src="icon-x.svg"
+              alt="X"
+              className="max-w-[56px] max-h-[56px]"
+            />
+          ) : (
+            <img
+              src="icon-o.svg"
+              alt="O"
+              className="max-w-[56px] max-h-[56px]"
+            />
+          )}
+
           <h3 className="text-[#F2B137]">TAKES THE ROUND</h3>
         </div>
         <div className="flex justify-center items-center gap-x-3">

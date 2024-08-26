@@ -8,6 +8,7 @@ export default function Game() {
   return (
     <div className="flex flex-col gap-5 ">
       {/* top */}
+
       <div className="flex justify-between items-center">
         {/* icons */}
         <div className="flex w-8 h-8 gap-2">

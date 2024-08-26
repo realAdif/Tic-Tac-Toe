@@ -1,17 +1,38 @@
-import { useGameBoard } from "../state/store"
 import { useRouter } from "kaioken"
+import { useAppContext } from "../context/appContext"
+
 export default function GameBoard() {
-  const { value, vsPlayer, vsCPU } = useGameBoard()
+  const { initialCells, setInitialCells } = useAppContext()
   const { params } = useRouter()
+
+  const updateCell = (id: number) => {
+    for (let i = 0; i < initialCells.length; i++) {
+      if (initialCells[i].id === id && initialCells[i].value === "") {
+        setInitialCells((prev: Cells[]) => {
+          return prev.map((cell: Cells) => {
+            if (cell.id === id) {
+              return {
+                ...cell,
+                value: "x",
+              }
+            }
+            return cell
+          })
+        })
+      }
+    }
+
+    console.log("updateCell", id)
+  }
 
   return (
     <div className="grid grid-cols-3  grid-rows-3  gap-4 w-full">
       {
         // 3x3 grid
-        value.cells.map((i: Cells) => (
+        initialCells.map((i: Cells) => (
           <button
             onclick={() =>
-              params.game === "player" ? vsPlayer(i.id) : vsCPU(i.id)
+              params.game === "player" ? updateCell(i.id) : updateCell(i.id)
             }
             key={i.id}
             className="w-[96px] h-[96px]  md:w-[140px] md:h-[140px] bg-primary rounded-2xl  shadow-[inset_0_-9px_0px_#10212A]"

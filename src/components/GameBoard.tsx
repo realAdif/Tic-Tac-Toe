@@ -7,7 +7,6 @@ export default function GameBoard() {
   const { params } = useRouter()
 
   const updateCell = (cellId: number) => {
-    // console.log("current player:", gameState)
     for (let i = 0; i < initialCells.length; i++) {
       if (initialCells[i].id === cellId && initialCells[i].value === "") {
         setInitialCells((prev: Cells[]) => {

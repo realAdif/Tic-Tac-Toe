@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "kaioken"
+import { createContext, useContext, useState } from "kaioken"
 
 const appContext = createContext({})
 
@@ -49,7 +49,6 @@ function AppContextProvider({ children }: { children: any }) {
   ])
 
   const changePlayer = () => {
-    console.log("current player:", gameState.currentPlayer)
     return setGameState((prev: any) => {
       return {
         ...prev,
@@ -59,7 +58,6 @@ function AppContextProvider({ children }: { children: any }) {
   }
 
   const restartGame = () => {
-    console.log("restarting game")
     setGameState({
       playerOScores: 0,
       playerXScores: 0,
@@ -105,10 +103,9 @@ function AppContextProvider({ children }: { children: any }) {
       },
     ])
   }
-
-  // useEffect(() => {
-  //   return changePlayer
-  // }, [initialCells])
+  const nextRound = () => {
+    return console.log("next round")
+  }
 
   return (
     <appContext.Provider

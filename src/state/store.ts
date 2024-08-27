@@ -2,7 +2,7 @@ import { createStore } from "kaioken"
 
 // 1 = X , 2 = O
 const initialState: GameState = {
-  isPaused: false,
+  isPaused: true,
   playerXScores: 0,
   playerOScores: 0,
   tie: 0,

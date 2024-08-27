@@ -1,10 +1,10 @@
 import { useGameBoard } from "../state/store"
 import GameBoard from "./GameBoard"
 import WinningScreen from "./WinningScreen"
-
+import { useAppContext } from "../context/appContext"
 export default function Game() {
-  const { value, onRestart } = useGameBoard()
-
+  const { value } = useGameBoard()
+  const { gameState, restartGame } = useAppContext()
   return (
     <div className="flex flex-col gap-5 ">
       {/* top */}
@@ -18,7 +18,7 @@ export default function Game() {
         {/* turn */}
         <div className="bg-primary rounded-2xl p-3  shadow-[inset_0_-9px_0px_#10212A] w-36 ">
           <div className="flex gap-2 justify-center items-center mb-2">
-            {value.currentPlayer === "x" ? (
+            {gameState.currentPlayer === "x" ? (
               <img src="icon-x.svg" alt="icon-x" className="w-[16px] md:w-5" />
             ) : (
               <img src="icon-o.svg" alt="icon-o" className=" w-[16px] md:w-5" />
@@ -29,7 +29,7 @@ export default function Game() {
         </div>
         {/* restart */}
         <div
-          onclick={onRestart}
+          onclick={restartGame}
           className="bg-[#A8BFC9] rounded-xl p-3 shadow-[inset_0_-6px_0px_#6B8997] h-full w-13"
         >
           <button>

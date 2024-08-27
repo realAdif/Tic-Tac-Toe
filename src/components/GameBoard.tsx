@@ -2,18 +2,21 @@ import { useRouter } from "kaioken"
 import { useAppContext } from "../context/appContext"
 
 export default function GameBoard() {
-  const { initialCells, setInitialCells } = useAppContext()
+  const { initialCells, setInitialCells, gameState, changePlayer } =
+    useAppContext()
   const { params } = useRouter()
 
-  const updateCell = (id: number) => {
+  const updateCell = (cellId: number) => {
+    // console.log("current player:", gameState)
     for (let i = 0; i < initialCells.length; i++) {
-      if (initialCells[i].id === id && initialCells[i].value === "") {
+      if (initialCells[i].id === cellId && initialCells[i].value === "") {
         setInitialCells((prev: Cells[]) => {
           return prev.map((cell: Cells) => {
-            if (cell.id === id) {
+            if (cell.id === cellId) {
+              changePlayer()
               return {
                 ...cell,
-                value: "x",
+                value: gameState.currentPlayer,
               }
             }
             return cell
@@ -21,8 +24,6 @@ export default function GameBoard() {
         })
       }
     }
-
-    console.log("updateCell", id)
   }
 
   return (

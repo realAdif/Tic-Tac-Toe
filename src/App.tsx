@@ -6,12 +6,10 @@ export function App() {
   return (
     <div className="w-[360px] md:w-[460px]">
       <AppContextProvider>
-        <main>
-          <Router>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/:game" element={<Game />} />
-          </Router>
-        </main>
+        <Router>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/:game" element={<Game />} />
+        </Router>
       </AppContextProvider>
     </div>
   )

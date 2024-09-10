@@ -125,7 +125,6 @@ function AppContextProvider({ children }: { children: any }) {
   }
 
   const nextRound = () => {
-    console.log("next round")
     setInitialCells([
       {
         id: 1,
@@ -166,7 +165,6 @@ function AppContextProvider({ children }: { children: any }) {
     ])
     setIsWiner(false)
   }
-
   useEffect(() => {
     const checkWinner = (cells: Cells[]) => {
       const winningCombinations = [

@@ -1,11 +1,11 @@
 import { useGameBoard } from "../state/store"
-
+import { useAppContext } from "../context/appContext"
 export default function WinningScreen({
   winner,
 }: {
   winner: "x" | "o" | null
 }) {
-  const { onRestart } = useGameBoard()
+  const { nextRound } = useAppContext()
 
   return (
     <div className="absolute inset-0 m-auto h-fit top bg-[#1F3641] py-5 ">
@@ -33,7 +33,7 @@ export default function WinningScreen({
             <button>QUIT</button>
           </div>
           <div
-            onclick={onRestart}
+            onclick={nextRound}
             className=" h-[56px] flex justify-center bg-light-yellow hover:bg-[#FFC860] text-[#1A2A33] rounded-xl shadow-[inset_0_-9px_0px_#CC8B13] px-4"
           >
             <button>NEXT ROUND</button>

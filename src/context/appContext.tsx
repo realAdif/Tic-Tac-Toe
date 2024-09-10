@@ -48,7 +48,6 @@ function AppContextProvider({ children }: { children: any }) {
     },
   ])
   const [isWinner, setIsWiner] = useState<boolean>(false)
-
   const changePlayer = () => {
     return setGameState((prev: any) => {
       return {
@@ -57,7 +56,6 @@ function AppContextProvider({ children }: { children: any }) {
       }
     })
   }
-
   const restartGame = () => {
     setGameState({
       playerOScores: 0,
@@ -103,6 +101,50 @@ function AppContextProvider({ children }: { children: any }) {
         value: "",
       },
     ])
+    setIsWiner(false)
+  }
+
+  const nextRound = () => {
+    console.log("next round")
+    setInitialCells([
+      {
+        id: 1,
+        value: "",
+      },
+      {
+        id: 2,
+        value: "",
+      },
+      {
+        id: 3,
+        value: "",
+      },
+      {
+        id: 4,
+        value: "",
+      },
+      {
+        id: 5,
+        value: "",
+      },
+      {
+        id: 6,
+        value: "",
+      },
+      {
+        id: 7,
+        value: "",
+      },
+      {
+        id: 8,
+        value: "",
+      },
+      {
+        id: 9,
+        value: "",
+      },
+    ])
+    setIsWiner(false)
   }
 
   useEffect(() => {
@@ -125,14 +167,27 @@ function AppContextProvider({ children }: { children: any }) {
             cells[a].value === cells[b].value &&
             cells[a].value === cells[c].value
           ) {
-            setIsWiner(true)
-            return console.log("winner", cells[a].value)
+            return setIsWiner(true)
           }
         }
       }
     }
     return checkWinner(initialCells)
   }, [initialCells])
+
+  if (isWinner) {
+    if (gameState.currentPlayer === "o") {
+      setGameState((prev: any) => ({
+        ...prev,
+        playerXScores: prev.playerXScores + 1,
+      }))
+    } else if (gameState.currentPlayer === "x") {
+      setGameState((prev: any) => ({
+        ...prev,
+        playerOScores: prev.playerOScores + 1,
+      }))
+    }
+  }
 
   return (
     <appContext.Provider
@@ -144,6 +199,7 @@ function AppContextProvider({ children }: { children: any }) {
         changePlayer,
         restartGame,
         isWinner,
+        nextRound,
       }}
     >
       {children}

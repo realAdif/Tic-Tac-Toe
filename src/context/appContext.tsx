@@ -1,9 +1,29 @@
 import { createContext, useContext, useEffect, useState } from "kaioken"
+interface AppContextType {
+  initialCells: Cells[]
+  setInitialCells: any
+  gameState: {
+    playerOScores: number
+    playerXScores: number
+    tie: number
+    currentPlayer: "x" | "o"
+  }
+  setGameState: any
+  changePlayer: () => void
+  restartGame: () => void
+  isWinner: boolean
+  nextRound: () => void
+}
 
-const appContext = createContext({})
+const appContext = createContext<AppContextType | undefined>(undefined)
 
 function AppContextProvider({ children }: { children: any }) {
-  const [gameState, setGameState] = useState({
+  const [gameState, setGameState] = useState<{
+    playerOScores: number
+    playerXScores: number
+    tie: number
+    currentPlayer: "x" | "o"
+  }>({
     playerOScores: 0,
     playerXScores: 0,
     tie: 0,
@@ -207,5 +227,11 @@ function AppContextProvider({ children }: { children: any }) {
   )
 }
 
-const useAppContext = () => useContext(appContext)
+const useAppContext = () => {
+  const context = useContext(appContext)
+  if (context === undefined) {
+    throw new Error("useAppContext must be used within an AppContextProvider")
+  }
+  return context
+}
 export { AppContextProvider, useAppContext }

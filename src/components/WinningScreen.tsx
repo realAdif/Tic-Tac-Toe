@@ -1,4 +1,3 @@
-import { useGameBoard } from "../state/store"
 import { useAppContext } from "../context/appContext"
 export default function WinningScreen({
   winner,

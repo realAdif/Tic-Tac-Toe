@@ -1,10 +1,8 @@
-import { useGameBoard } from "../state/store"
 import GameBoard from "./GameBoard"
 import WinningScreen from "./WinningScreen"
 import { useAppContext } from "../context/appContext"
 export default function Game() {
-  const { value } = useGameBoard()
-  const { gameState, restartGame } = useAppContext()
+  const { gameState, restartGame, isWinner } = useAppContext()
   return (
     <div className="flex flex-col gap-5 ">
       {/* top */}
@@ -38,25 +36,27 @@ export default function Game() {
         </div>
       </div>
       <GameBoard />
-      {value.isPaused && <WinningScreen winner={value.currentPlayer} />}
+      {isWinner && (
+        <WinningScreen winner={gameState.currentPlayer === "x" ? "o" : "x"} />
+      )}
       {/* points/footer */}
       <div className="flex justify-between gap-2">
         <div className="bg-light-blue text-[#1A2A33] w-[96px] md:w-[140px] h-[72px]  text-center rounded-xl ">
           <div className="h-full flex flex-col justify-center items-center">
             <p>X (YOU)</p>
-            <p>{value.playerXScores}</p>
+            <p>{gameState.playerXScores}</p>
           </div>
         </div>
         <div className="bg-[#A8BFC9] text-[#1A2A33] w-[96px] md:w-[140px] h-[72px] text-center rounded-xl">
           <div className="h-full flex flex-col justify-center items-center">
             <p>TIES</p>
-            <p>{value.tie}</p>
+            <p>{gameState.tie}</p>
           </div>
         </div>
         <div className="bg-light-yellow text-[#1A2A33] w-[96px]  md:w-[140px] h-[72px] text-center rounded-xl">
           <div className="h-full flex flex-col justify-center items-center">
             <p>O (CPU)</p>
-            <p>{value.playerOScores}</p>
+            <p>{gameState.playerOScores}</p>
           </div>
         </div>
       </div>
